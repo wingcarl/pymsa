@@ -1,0 +1,42 @@
+<html>
+
+<head>
+
+    <title></title>
+
+    <script src="http://lib.sinaapp.com/js/jquery/1.9.1/jquery-1.9.1.min.js"></script>
+
+</head>
+
+<body>
+
+</body>
+
+<script type="text/javascript">
+
+        var getting = {
+
+        url:'http://127.0.0.1:8000/api/add_wind',
+
+        dataType:'json',
+		
+		data:{"add_time":1234,"wind_level":123,"wind_direction":34},
+
+        success:function(res) {
+
+         console.log(res);
+
+}
+
+};
+
+//关键在这里，Ajax定时访问服务端，不断获取数据 ，这里是1秒请求一次。
+
+window.setInterval(function(){
+
+$.ajax(getting)
+},50000);
+
+</script>
+
+</html>
