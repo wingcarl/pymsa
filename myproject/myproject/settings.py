@@ -25,7 +25,7 @@ SECRET_KEY = 'tc!=3i_sqro+l96fgid+2$1681mku11meq(52gujj=z^4pz!+='
 # SECURITY WARNING: don't run with debug turned on in production!
 DEBUG = True
 
-ALLOWED_HOSTS = []
+ALLOWED_HOSTS = ['140.143.26.197']
 
 
 # Application definition
@@ -78,7 +78,7 @@ DATABASES = {
 
     'default': {
 	'ENGINE': 'django.db.backends.mysql',   # 数据库引擎
-        'NAME': 'mydb',       # 你要存储数据的库名，事先要创建之
+        'NAME': 'myproject',       # 你要存储数据的库名，事先要创建之
         'USER': 'root',         # 数据库用户名
         'PASSWORD': '123456',     # 密码
         'HOST': 'localhost',    # 主机
