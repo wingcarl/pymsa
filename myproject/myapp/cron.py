@@ -1,3 +1,4 @@
+
 from django.shortcuts import render
 from django.views.decorators.http import require_http_methods
 from django.http import HttpResponse
@@ -6,9 +7,8 @@ from .models import Wind
 import requests
 import time
 # Create your views here.
- 
-@require_http_methods(["GET"])
-def add_wind(request):
+
+def check():
     response = {}
     try:
        #请求地址
@@ -28,4 +28,3 @@ def add_wind(request):
         response['error_num'] = 1
 
     return JsonResponse(response)
-
