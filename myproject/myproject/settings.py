@@ -129,5 +129,7 @@ USE_TZ = False
 STATIC_URL = '/static/'
 
 CRONJOBS = [
-  ('*/1 * * * *', 'myapp.cron.check','>>/tmp/test.log')
+  ('*/1 * * * *', 'myapp.cron.check','>>/tmp/test.log'),
+  ('*/5 * * * *', 'myapp.cron.water_check','>>/tmp/test.log'),
+  ('*/30 * * * *', 'myapp.cron.wind_check','>>/tmp/test1.log')
 ]
