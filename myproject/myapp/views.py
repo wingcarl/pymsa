@@ -2,7 +2,7 @@ from django.shortcuts import render
 from django.views.decorators.http import require_http_methods
 from django.http import HttpResponse
 from django.http import JsonResponse
-from .models import Wind,Water,Weather,WindScrapy
+from .models import Wind,Water,Weather,WindScrapy,Tide
 import requests
 import time,datetime
 import json
@@ -54,6 +54,87 @@ def show_wind(request):
             wind_data["x"] = item.add_time.strftime("%Y/%m/%d %H:%M:%S")
             wind_data["y"]  = item.wind_level
             jsdata.append(wind_data)
+        #response['list']  = json.loads(serializers.serialize("json", books))
+        #response['msg'] = 'success'
+        #response['error_num'] = 0
+    except  Exception as e:
+        print(str(e))
+        response['msg'] = str(e)
+        response['error_num'] = 1
+    return JsonResponse(jsdata,safe=False)
+
+@require_http_methods(["GET"])
+def show_tide(request):
+    response = {}
+    jsdata = []
+    now = datetime.now()
+    start = now - timedelta(hours=11, minutes=59, seconds=59)
+    end = now + timedelta(hours=11,minutes=59,seconds=59)
+    print(start)
+    print(end)
+    try:
+        type = request.GET.get('type')
+        print(type)
+        tides = Tide.objects.filter(place=type).filter(add_time__range=(start,end)).order_by("add_time")
+        for item in tides:
+            print(item.add_time)
+            wind_data={}
+            wind_data["x"] = item.add_time.strftime("%Y/%m/%d %H:%M:%S")
+            wind_data["y"]  = item.tide_height
+            wind_data["s"] = "1"
+            jsdata.append(wind_data)
+        tides_tsg = Tide.objects.filter(place='tsg').filter(add_time__range=(start,end)).order_by("add_time")
+        for item in tides_tsg:
+            print(item.add_time)
+            wind_data={}
+            wind_data["x"] = item.add_time.strftime("%Y/%m/%d %H:%M:%S")
+            wind_data["y"]  = item.tide_height
+            wind_data["s"] = "2"
+            jsdata.append(wind_data)
+        #response['list']  = json.loads(serializers.serialize("json", books))
+        #response['msg'] = 'success'
+        #response['error_num'] = 0
+    except  Exception as e:
+        print(str(e))
+        response['msg'] = str(e)
+        response['error_num'] = 1
+    return JsonResponse(jsdata,safe=False)
+
+@require_http_methods(["GET"])
+def show_tide_text(request):
+    response = {}
+    jsdata = []
+    now = datetime.now()
+    start = now - timedelta( minutes=59, seconds=59)
+    end = now + timedelta(minutes=59,seconds=59)
+    print(start)
+    print(end)
+    tide_text='江阴潮高:'
+    try:
+        type = request.GET.get('type')
+        print(type)
+        tides = Tide.objects.filter(place=type).filter(add_time__range=(start,end)).order_by("add_time")
+        tide_text = tide_text + tides[0].tide_height + 'cm '
+        diff = int(tides[1].tide_height)-int(tides[0].tide_height)
+        if diff>5:
+            tide_text = tide_text + '涨潮'
+        elif diff<-5:
+            tide_text = tide_text + '落潮'
+        else:
+            tide_text = tide_text + '平潮'
+        tides_tsg = Tide.objects.filter(place='tsg').filter(add_time__range=(start,end)).order_by("add_time")
+        tide_text = tide_text +' 天生港潮高:' +  tides_tsg[0].tide_height + 'cm '
+        diff = int(tides_tsg[1].tide_height)-int(tides_tsg[0].tide_height)
+        if diff>5:
+            tide_text = tide_text + '涨潮'
+        elif diff<-5:
+            tide_text = tide_text + '落潮'
+        else:
+            tide_text = tide_text + '平潮'
+        wind_data={}
+        wind_data["value"] = tide_text
+        wind_data["url"]  = ''
+        jsdata.append(wind_data)
         #response['list']  = json.loads(serializers.serialize("json", books))
         #response['msg'] = 'success'
         #response['error_num'] = 0
@@ -243,7 +324,8 @@ def show_weather_alert(request):
             #print(type(weather_str))
             weather_chn = weather_str.encode('utf-8').decode()
             levels = re.findall(r"\d+级",weather_chn)
-            it = levels[-1]
+            new = sorted(levels,key = lambda i:int(re.match(r'(\d+)',i).group()))
+            it = new[-1]
             if it=='7级' or it=='8级' or it=='9级':
                 alert_str = alert_str+'三级预警'
             elif it=='10级' or it=='11级':

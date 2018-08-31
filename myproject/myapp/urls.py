@@ -11,4 +11,6 @@ url(r'add_wind_scrapy$', views.wind_check, ),
 url(r'show_wind_scrapy$', views.show_wind_scrapy, ),
 url(r'show_wind_level$', views.show_wind_level, ),
 url(r'show_weather_alert$', views.show_weather_alert, ),
+url(r'show_tide$', views.show_tide, ),
+url(r'show_tide_text$', views.show_tide_text, ),
 ]
