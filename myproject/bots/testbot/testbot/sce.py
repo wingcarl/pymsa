@@ -13,9 +13,7 @@ class QuotesSpider(scrapy.Spider):
         weather_info = response.css('#iscroll::text').extract()
         str_weather = ''.join(weather_info)
         str_weather = str_weather.replace('\r','')
-        print(str_weather)
-        if str_weather.strip() != '':
-            item = TestbotItem()
-            item['weather_detail'] = str_weather.encode().decode()
-            item['add_time'] = datetime.datetime.now()
-            p = item.save()
+        item = TestbotItem()
+        item['weather_detail'] = str_weather.encode().decode()
+        item['add_time'] = datetime.datetime.now()
+        p = item.save()

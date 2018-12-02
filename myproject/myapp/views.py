@@ -53,6 +53,7 @@ def show_wind(request):
             wind_data={}
             wind_data["x"] = item.add_time.strftime("%Y/%m/%d %H:%M:%S")
             wind_data["y"]  = item.wind_level
+            wind_data["z"] = item.wind_direction
             jsdata.append(wind_data)
         #response['list']  = json.loads(serializers.serialize("json", books))
         #response['msg'] = 'success'
@@ -155,7 +156,7 @@ def show_wind_level(request):
         for item in reversed(winds):
             wind_speed  = item.wind_level
             wind_l = get_wind_level(float(wind_speed))
-            wind_str = wind_str+'港务局：'+str(wind_l)+'级风 '
+            wind_str = wind_str+'港务集团：'+str(wind_l)+'级风 '
         for item in winds_sc:
             wind_speed = item.wind_level
             djson = demjson.decode(wind_speed)
@@ -264,7 +265,7 @@ def show_water(request):
     response = {}
     jsdata = []
     try:
-        waters = Water.objects.all().order_by("-add_time")[:30]
+        waters = Water.objects.all().order_by("-add_time")[:12]
         for item in reversed(waters):
             #print(item.add_time)
             water_data={}

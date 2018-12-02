@@ -33,3 +33,10 @@ class Tide(models.Model):
     place = models.CharField(max_length=64)
     def __unicode__(self):
         return self.add_time
+
+class Seeable(models.Model):
+    see_length = models.CharField(max_length=64)
+    add_time = models.DateTimeField()
+    def __unicode__(self):
+        return self.add_time
+

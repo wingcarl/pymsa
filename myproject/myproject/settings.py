@@ -22,10 +22,10 @@ BASE_DIR = os.path.dirname(os.path.dirname(os.path.abspath(__file__)))
 # SECURITY WARNING: keep the secret key used in production secret!
 SECRET_KEY = 'tc!=3i_sqro+l96fgid+2$1681mku11meq(52gujj=z^4pz!+='
 
-# SECURITY WARNING: don't run with debug turned on in production!
+# SECURITY WARNING: don't run wit,tideliiiiiive.vip']
 DEBUG = True
 
-ALLOWED_HOSTS = ['140.143.26.197']
+ALLOWED_HOSTS = ['140.143.26.197','tidelive.vip']
 
 
 # Application definition
@@ -129,7 +129,7 @@ USE_TZ = False
 STATIC_URL = '/static/'
 
 CRONJOBS = [
-    ('*/1 * * * *', 'myapp.cron.check','>>/tmp/test.log'),
-  ('0 * * * *', 'myapp.cron.water_check','>>/tmp/test.log'),
+  ('*/1 * * * *', 'myapp.cron.check','>>/tmp/test.log'),
+  ('*/5 * * * *', 'myapp.cron.water_check','>>/tmp/test.log'),
   ('*/30 * * * *', 'myapp.cron.wind_check','>>/tmp/test1.log')
 ]
